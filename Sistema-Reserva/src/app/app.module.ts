@@ -8,6 +8,7 @@ import { HeaderComponent } from './shared/header/header.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { CarruselComponent } from './shared/carrusel/carrusel.component';
 import { InicioComponent } from './layout/inicio/inicio.component';
+import { IngresarComponent } from './forms/ingresar/ingresar.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { InicioComponent } from './layout/inicio/inicio.component';
     HeaderComponent,
     FooterComponent,
     CarruselComponent,
-    InicioComponent
+    InicioComponent,
+    IngresarComponent
   ],
   imports: [
     BrowserModule,
