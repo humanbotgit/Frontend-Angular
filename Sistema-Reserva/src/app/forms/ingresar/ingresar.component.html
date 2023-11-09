@@ -1,1 +1,24 @@
-<p>ingresar works!</p>
+<form [formGroup]="loginForm" (ngSubmit)="login()">
+    <h3>Recursos Académicos Virtuales</h3>
+    <h6>Bienvenido(a) docente, a continuación ingresa tus credenciales para realizar reservas de nuestros recursos académicos virtuales</h6>
+    <div class="form-outline mb-4">
+      <label class="form-label" for="form2Example1">Correo Institucional</label>
+      <input type="email" id="form2Example1" class="form-control" formControlName="Correo" />
+      <div *ngIf="isInvalid('Correo', 'required')" class="text-danger">
+        El correo es obligatorio.
+      </div>
+      <div *ngIf="isInvalid('Correo', 'email')" class="text-danger">
+        Ingresa un correo válido.
+      </div>
+    </div>
+    <div class="form-outline mb-4">
+      <label class="form-label" for="form2Example2">Contraseña</label>
+      <input type="password" id="form2Example2" class="form-control" formControlName="Pass" />
+      <div *ngIf="isInvalid('Pass', 'required')" class="text-danger">
+        La contraseña es obligatoria.
+      </div>
+    </div>
+  
+    <button [disabled]="!loginForm.valid" type="submit" class="btn btn-primary btn-block mb-4">Ingresar</button>
+  </form>
+  
