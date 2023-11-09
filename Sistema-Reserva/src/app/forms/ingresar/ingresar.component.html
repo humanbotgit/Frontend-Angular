@@ -1,24 +1,38 @@
-<form [formGroup]="loginForm" (ngSubmit)="login()">
-    <h3>Recursos Académicos Virtuales</h3>
-    <h6>Bienvenido(a) docente, a continuación ingresa tus credenciales para realizar reservas de nuestros recursos académicos virtuales</h6>
-    <div class="form-outline mb-4">
-      <label class="form-label" for="form2Example1">Correo Institucional</label>
-      <input type="email" id="form2Example1" class="form-control" formControlName="Correo" />
-      <div *ngIf="isInvalid('Correo', 'required')" class="text-danger">
-        El correo es obligatorio.
-      </div>
-      <div *ngIf="isInvalid('Correo', 'email')" class="text-danger">
-        Ingresa un correo válido.
+<form [formGroup]="loginForm" (ngSubmit)="login()" (keydown.enter)="loginForm.valid && login()">
+  <h3>Recursos Académicos Virtuales</h3>
+  <h6>Bienvenido(a) docente, a continuación ingresa tus credenciales para realizar reservas de nuestros recursos académicos virtuales</h6>
+  
+  <div class="form-outline mb-4">
+    <label class="form-label" for="form2Example1">Correo Institucional</label>
+    <input type="email" id="form2Example1" class="form-control" formControlName="Correo" />
+  </div>
+  
+  <div class="form-outline mb-4">
+    <label class="form-label" for="form2Example2">Contraseña</label>
+    <div class="input-group">
+      <input
+        type="{{ showPassword ? 'text' : 'password' }}"
+        id="form2Example2"
+        class="form-control"
+        formControlName="Pass"
+      />
+      <div class="input-group-append">
+        <span class="input-group-text">
+          <i
+            class="fas fa-eye{{ showPassword ? '-slash' : '' }}"
+            (click)="togglePasswordVisibility()"
+            style="cursor: pointer;"
+          ></i>
+        </span>
       </div>
     </div>
-    <div class="form-outline mb-4">
-      <label class="form-label" for="form2Example2">Contraseña</label>
-      <input type="password" id="form2Example2" class="form-control" formControlName="Pass" />
-      <div *ngIf="isInvalid('Pass', 'required')" class="text-danger">
-        La contraseña es obligatoria.
-      </div>
+    
+    <div *ngIf="loginFailed" class="text-danger mt-2" role="alert" aria-live="assertive">
+      No se pudo iniciar sesión. Por favor, verifica tus credenciales.
     </div>
-  
-    <button [disabled]="!loginForm.valid" type="submit" class="btn btn-primary btn-block mb-4">Ingresar</button>
-  </form>
-  
+  </div>
+
+  <button [disabled]="!loginForm.valid || loading" type="submit" class="btn btn-primary btn-block mb-4">
+    {{ loading ? 'Ingresando...' : 'Ingresar' }}
+  </button>
+</form>
