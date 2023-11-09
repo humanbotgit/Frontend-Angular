@@ -1,61 +1,76 @@
+import { Router } from "@angular/router";
+import { Docente } from '../model/Docente';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, BehaviorSubject, throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from "@angular/common/http"
+import { Observable, BehaviorSubject } from 'rxjs';
+import { first, catchError, tap } from 'rxjs/operators';
 import { ErrorService } from './error/error.service';
-import { Docente } from './../model/Docente';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private url = 'https://nodeaplication.onrender.com/docente';
+  private url = "https://nodeaplication.onrender.com/"
   isUserLoggedIn$ = new BehaviorSubject<boolean>(false);
-  docenteDNI: Pick<Docente, 'DNI_Docente'> | null = null;
+  docenteDNI: Pick<Docente, "DNI_Docente"> | undefined
   httpOptions: { headers: HttpHeaders } = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
+    headers: new HttpHeaders({ "Content-Type": "application/json" })
+  }
 
   constructor(
     private http: HttpClient,
-    private router: Router,
-    private error: ErrorService,
-  ) { }
+    private ErrorService: ErrorService,
+    private router: Router) {}
 
   signup(docente: Docente): Observable<Docente> {
     return this.http
-      .post<Docente>(`${this.url}/signup`, docente, this.httpOptions)
-      .pipe(
-        catchError(this.handleError<Docente>('signup'))
+      .post<Docente>(`${this.url}docente/signup`, docente, this.httpOptions)
+      .pipe(first(),
+        catchError(this.ErrorService.handleError<Docente>("signup"))
       );
   }
 
-  login(Correo: string, Pass: string): Observable<{ token: string; docenteDNI: Pick<Docente, 'DNI_Docente'> }> {
+  login(
+    Correo: Pick<Docente, "Correo">,
+    Pass: Pick<Docente, "Pass">
+  ): Observable<{
+    token: string;
+    docenteDNI: Pick<Docente, "DNI_Docente">;
+  }> {
     return this.http
-      .post<{ token: string; docenteDNI: Pick<Docente, 'DNI_Docente'> }>(
-        `${this.url}/login`,
-        { Correo, Pass },
-        this.httpOptions
-      )
+      .post(`${this.url}docente/login`, { Correo, Pass }, this.httpOptions)
       .pipe(
-        tap(
-          (tokenObject: any) => {
-            this.docenteDNI = tokenObject.docenteDNI;
-            localStorage.setItem('token', tokenObject.token);
-            this.isUserLoggedIn$.next(true);
-            this.router.navigate(['reservas']);
-          },
-          error => this.handleError(error)
-        )
+        first(),
+        tap((tokenObject: any) => {
+          this.docenteDNI = tokenObject.docenteDNI;
+          localStorage.setItem("token", tokenObject.token);
+          
+          // Asegúrate de que this.docenteDNI no sea undefined antes de intentar guardarlo
+          if (this.docenteDNI !== undefined) {
+            localStorage.setItem("DNI_Docente", this.docenteDNI.toString());
+          }
+        
+          this.isUserLoggedIn$.next(true);
+          this.router.navigate(["reservas"]);
+        }),
+        catchError(
+          this.ErrorService.handleError<{
+            token: string;
+            docenteDNI: Pick<Docente, "DNI_Docente">;
+          }>("login"))
       );
   }
-
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(error);
-      // Puedes agregar lógica para mostrar mensajes de error más específicos al usuario
-      return throwError(error);
-    };
-  }
+  getReservasByDNI(dni: string): Observable<any[]> {
+    const url = `${this.url}/reserva/${dni}`;
+    console.log('URL de la solicitud:', url);
+  
+    return this.http.get<any[]>(url, this.httpOptions)
+      .pipe(
+        tap(res => console.log('Respuesta de la API:', res)),
+        catchError((error: any) => {
+          console.error('Error de la API:', error);
+          return this.ErrorService.handleError<any[]>('getReservasByDNI');
+        })
+      );
+  }  
 }

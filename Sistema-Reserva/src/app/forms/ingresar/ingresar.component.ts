@@ -31,8 +31,8 @@ export class IngresarComponent {
     const { Correo, Pass } = this.loginForm.value;
 
     this.loading = true;
-    this.loginFailed = false; // Reiniciar en cada intento de inicio de sesión
-    this.errorMessage = ''; // Reiniciar en cada intento de inicio de sesión
+    this.loginFailed = false; 
+    this.errorMessage = ''; 
 
     this.authService.login(Correo, Pass)
       .subscribe(

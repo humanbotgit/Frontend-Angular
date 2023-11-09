@@ -4,6 +4,17 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule} from  '@angular/common/http'
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms'; 
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select'; // Importa MatSelectModule
+import { MatOptionModule } from '@angular/material/core'; // Importa MatOptionModule
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatListModule} from '@angular/material/list';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -14,6 +25,7 @@ import { CarruselComponent } from './shared/carrusel/carrusel.component';
 import { InicioComponent } from './layout/inicio/inicio.component';
 import { IngresarComponent } from './forms/ingresar/ingresar.component';
 import { ReservasComponent } from './layout/reservas/reservas.component';
+import { RegistrarComponent } from './forms/registrar/registrar.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +35,8 @@ import { ReservasComponent } from './layout/reservas/reservas.component';
     CarruselComponent,
     InicioComponent,
     IngresarComponent,
-    ReservasComponent
+    ReservasComponent,
+    RegistrarComponent
     
   ],
   imports: [
@@ -34,6 +47,18 @@ import { ReservasComponent } from './layout/reservas/reservas.component';
     HttpClientModule,
     CommonModule,
     ReactiveFormsModule,
+    MatButtonModule,
+    MatCardModule,
+    MatIconModule,
+    MatInputModule,
+    MatListModule,
+    MatToolbarModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatSelectModule,  // Solo necesitas importar MatSelectModule
+    MatCheckboxModule
   ],
   providers: [
     provideClientHydration(),

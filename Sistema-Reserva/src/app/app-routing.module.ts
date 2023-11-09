@@ -6,13 +6,15 @@ import { FooterComponent } from './shared/footer/footer.component';
 import { InicioComponent } from './layout/inicio/inicio.component';
 import { IngresarComponent} from './forms/ingresar/ingresar.component'
 import { ReservasComponent } from './layout/reservas/reservas.component';
+import { RegistrarComponent } from './forms/registrar/registrar.component';
 const routes: Routes = [
   {path: '', redirectTo: 'inicio', pathMatch:'full'},
   {path: 'inicio', component:InicioComponent},
   {path: 'header', component:HeaderComponent},
   {path: 'footer', component:FooterComponent},
   {path: 'ingresar', component:IngresarComponent},
-  {path: 'reserva',component:ReservasComponent}
+  {path: 'reserva',component:ReservasComponent},
+  {path: 'registrar',component:RegistrarComponent}
 ];
 
 @NgModule({

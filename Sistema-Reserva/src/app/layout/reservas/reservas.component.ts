@@ -1,10 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../service/auth.service';
 
 @Component({
   selector: 'app-reservas',
   templateUrl: './reservas.component.html',
-  styleUrl: './reservas.component.css'
+  styleUrls: ['./reservas.component.css']
 })
-export class ReservasComponent {
+export class ReservasComponent implements OnInit {
+  dniDocente: string | undefined;
+  reservas: any[] = [];
 
+  constructor(private authService: AuthService) {}
+
+  ngOnInit() {
+    this.dniDocente = this.authService.docenteDNI?.toString();
+    if (this.dniDocente) {
+      this.authService.getReservasByDNI(this.dniDocente)
+        .subscribe(reservas => {
+          this.reservas = reservas;
+        });
+    }
+  }
 }
