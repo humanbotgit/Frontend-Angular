@@ -6,7 +6,8 @@ import { DateAdapter } from '@angular/material/core';
 import { ProfesorService } from '../../service/profesor.service';
 import { CrearReservaService } from '../../service/reserva/crear-reserva.service';
 import { Reserva } from '../../model/Reserva';
-
+import { Router } from '@angular/router';
+import { AuthService } from '../../service/auth.service';
 @Component({
   selector: 'app-new-reserva',
   templateUrl: './new-reserva.component.html',
@@ -29,22 +30,36 @@ export class NewReservaComponent implements OnInit {
   showError: boolean = false;
   errorMessage: string = '';
   isButtonDisabled: boolean = true;
-
+  horaFinMenorOIgual: boolean = false;
+  isLoggedIn: boolean = false;
   constructor(
     private dateAdapter: DateAdapter<Date>,
     private profesorService: ProfesorService,
-    private crearReservaService: CrearReservaService
+    private crearReservaService: CrearReservaService,
+    private router: Router,
+    private authService: AuthService
   ) {
     this.fechaDeRegistro = new Date();
     this.dateAdapter.setLocale('es');
     this.minDate = new Date();
     //Obtienene el dni del docente
     this.dniDocente = this.profesorService.getDNIDocente() || 'ValorPredeterminado';
+    if (!this.dniDocente || this.dniDocente=='ValorPredeterminado') {
+      this.router.navigate(['/ingresar']);
+    }
+    this.isLoggedIn = this.authService.isUserLoggedIn$.value;
+    this.authService.isUserLoggedIn$.subscribe((loggedIn: boolean) => {
+      this.isLoggedIn = loggedIn;
+    });
     //carga las asignaturas del docente
     this.loadAsignaturas();
   }
 
   ngOnInit() {}
+  //selecciona la fecha fin, tiene que ser mayor que el valor que la fecha inicio
+  compareFechas() {
+    this.horaFinMenorOIgual = this.opcionSeleccionadaFin <= this.opcionSeleccionadaInicio;
+  }
   //carga las asignaturas
   loadAsignaturas() {
     if (this.dniDocente) {

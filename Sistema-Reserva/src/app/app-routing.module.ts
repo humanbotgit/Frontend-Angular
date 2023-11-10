@@ -16,7 +16,8 @@ const routes: Routes = [
   {path: 'ingresar', component:IngresarComponent},
   {path: 'reserva',component:ReservasComponent},
   {path: 'registrar',component:RegistrarComponent},
-  {path: 'new-reserva',component:NewReservaComponent}
+  {path: 'new-reserva',component:NewReservaComponent},
+  { path: '**', redirectTo: 'inicio', pathMatch: 'full' },
 ];
 
 @NgModule({

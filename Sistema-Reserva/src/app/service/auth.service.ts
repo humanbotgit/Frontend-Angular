@@ -46,12 +46,9 @@ export class AuthService {
         tap((tokenObject: any) => {
           this.docenteDNI = tokenObject.docenteid;
           localStorage.setItem("token", tokenObject.token);
-  
-          // Asegúrate de que this.docenteDNI no sea undefined antes de intentar guardarlo
           if (this.docenteDNI !== undefined) {
             localStorage.setItem("DNI_Docente", this.docenteDNI.toString());
           }
-  
           this.isUserLoggedIn$.next(true);
           this.router.navigate(["reservas"]);
         }),

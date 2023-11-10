@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../service/auth.service';
 
 @Component({
@@ -6,16 +6,19 @@ import { AuthService } from '../../service/auth.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
+  isLoggedIn: boolean = false;
   constructor(private authService: AuthService) {}
-
-  // Método para cerrar sesión
+  ngOnInit() {
+    this.isLoggedIn = this.authService.isUserLoggedIn$.value;
+    this.authService.isUserLoggedIn$.subscribe((loggedIn: boolean) => {
+      this.isLoggedIn = loggedIn;
+    });
+  }
   logout() {
     this.authService.logout();
   }
-
-  // Método para verificar si el usuario está autenticado
   isUserLoggedIn(): boolean {
-    return this.authService.isUserLoggedIn$.value;
+    return this.isLoggedIn;
   }
 }

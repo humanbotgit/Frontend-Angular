@@ -27,16 +27,19 @@
       <mat-label>
         Inicio de reserva:
       </mat-label>
-      <mat-select [(ngModel)]="opcionSeleccionadaInicio" name="opcionSeleccionada">
+      <mat-select [(ngModel)]="opcionSeleccionadaInicio" name="opcionSeleccionada"(ngModelChange)="compareFechas()">
         <mat-option value="1">7:00 AM - BLOQUE I</mat-option>
-        <mat-option value="2">8:40 AM - BLOQUE II</mat-option>
-        <mat-option value="3">10:20 AM - BLOQUE III</mat-option>
-        <mat-option value="4">12:00 PM - BLOQUE IV</mat-option>
-        <mat-option value="5">2:00 PM - BLOQUE V</mat-option>
-        <mat-option value="6">3:40 PM - BLOQUE VI</mat-option>
-        <mat-option value="7">5:20 PM - BLOQUE VII</mat-option>
-        <mat-option value="8">7:00 PM - BLOQUE VIII</mat-option>
-        <mat-option value="9">8:40 PM - BLOQUE IX</mat-option>
+        <mat-option value="3">8:40 AM - BLOQUE II</mat-option>
+        <mat-option value="5">10:20 AM - BLOQUE III</mat-option>
+        <mat-option value="7">12:00 PM - BLOQUE IV</mat-option>
+        <mat-option value="9">2:00 PM - BLOQUE V</mat-option>
+        <mat-option value="11">3:40 PM - BLOQUE VI</mat-option>
+        <mat-option value="13">5:20 PM - BLOQUE VII</mat-option>
+        <mat-option value="15">7:00 PM - BLOQUE VIII</mat-option>
+        <mat-option value="17">8:30 PM - BLOQUE IX</mat-option>
+        <mat-option value="19">10:00 PM - BLOQUE X</mat-option>
+        <mat-option value="21">11:30 PM - BLOQUE XI</mat-option>
+        <mat-option value="23">1:00 AM - BLOQUE XII</mat-option>
       </mat-select>
     </mat-form-field>
     <div class="reserva-title">
@@ -47,17 +50,20 @@
         <mat-label>
           Fin de reserva
         </mat-label>
-        <mat-select [(ngModel)]="opcionSeleccionadaFin" name="opcionSeleccionada">
-          <mat-option value="1">8:30 AM - BLOQUE I</mat-option>
-          <mat-option value="2">10:10 AM - BLOQUE II</mat-option>
-          <mat-option value="3">11:50 AM - BLOQUE III</mat-option>
-          <mat-option value="4">1:30 PM - BLOQUE IV</mat-option>
-          <mat-option value="5">3:30 PM - BLOQUE V</mat-option>
-          <mat-option value="6">5:10 PM - BLOQUE VI</mat-option>
-          <mat-option value="7">6:50 PM - BLOQUE VII</mat-option>
-          <mat-option value="8">8:30 PM - BLOQUE VIII</mat-option>
-          <mat-option value="9">10:00 PM - BLOQUE IX</mat-option>
+        <mat-select [(ngModel)]="opcionSeleccionadaFin" name="opcionSeleccionada"(ngModelChange)="compareFechas()">
+          <mat-option value="2">8:30 AM - BLOQUE I</mat-option>
+          <mat-option value="4">10:10 AM - BLOQUE II</mat-option>
+          <mat-option value="6">11:50 AM - BLOQUE III</mat-option>
+          <mat-option value="8">1:30 PM - BLOQUE IV</mat-option>
+          <mat-option value="10">3:30 PM - BLOQUE V</mat-option>
+          <mat-option value="12">5:10 PM - BLOQUE VI</mat-option>
+          <mat-option value="14">6:50 PM - BLOQUE VII</mat-option>
+          <mat-option value="16">8:30 PM - BLOQUE VIII</mat-option>
+          <mat-option value="18">10:00 PM - BLOQUE IX</mat-option>
+          <mat-option value="20">11:30 PM - BLOQUE X</mat-option>
+          <mat-option value="22">1:00 AM - BLOQUE XI</mat-option>
         </mat-select>
+        <div *ngIf="horaFinMenorOIgual">La hora de finalización debe ser mayor que la hora de inicio</div>
     </mat-form-field>
     <div>
       Asignatura - NRC
