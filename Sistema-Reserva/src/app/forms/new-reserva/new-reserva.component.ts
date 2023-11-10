@@ -43,8 +43,8 @@ export class NewReservaComponent implements OnInit {
     this.dateAdapter.setLocale('es');
     this.minDate = new Date();
     //Obtienene el dni del docente
-    this.dniDocente = this.profesorService.getDNIDocente() || 'ValorPredeterminado';
-    if (!this.dniDocente || this.dniDocente=='ValorPredeterminado') {
+    this.dniDocente = this.profesorService.getDNIDocente() || '75471467';
+    if (!this.dniDocente || this.dniDocente=='75471467') {
       this.router.navigate(['/ingresar']);
     }
     this.isLoggedIn = this.authService.isUserLoggedIn$.value;

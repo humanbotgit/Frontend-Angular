@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Reserva } from '../../model/Reserva';
+import { throwError } from 'rxjs';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -27,8 +29,14 @@ export class CrearReservaService {
   }
   postReserva(reserva: Reserva): Observable<Reserva> {
     const url = `${this.apiUrl}/reserva/`;
-    return this.http.post<Reserva>(url, reserva);
+    return this.http.post<Reserva>(url, reserva).pipe(
+      catchError((error) => {
+        console.error('Error en la solicitud de reserva:', error);
+        return throwError(error);
+      })
+    );
   }
+  
   getCantidadLicencias(idLaboratorio: string): Observable<any> {
     const url = `${this.apiUrl}/laboratorio/cantlicencia/${idLaboratorio}`;
     return this.http.get<any>(url).pipe(

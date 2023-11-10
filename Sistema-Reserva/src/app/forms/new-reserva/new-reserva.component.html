@@ -111,8 +111,12 @@
       <div *ngIf="errorMessage" class="alert alert-danger">
         {{ errorMessage }}
       </div>
-      <button mat-button type="submit" [disabled]="isButtonDisabled">
+      <button mat-button type="submit">
         Enviar
       </button>
+      <div *ngIf="showError" class="error-message">
+        {{ errorMessage }}
+      </div>
+      
   </mat-card>
 </form>
