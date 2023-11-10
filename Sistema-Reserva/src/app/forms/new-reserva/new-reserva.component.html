@@ -81,11 +81,11 @@
             Este laboratorio no cuenta con licencias disponibles.
           </div>
         </div>
-    
+    <br>
         <div>Cantidad de Licencias Reservadas:</div>
         <br>
         <input type="text" name="cantidadLicencias" (input)="onInputChange($event)">
-        
+        <br>
         <div *ngIf="errorMessage" class="alert alert-danger">
           {{ errorMessage }}
         </div>

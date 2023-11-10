@@ -32,11 +32,7 @@ mat-card {
     outline: none; /* Elimina el contorno al hacer clic */
   }
   /* En tu archivo de estilos CSS, por ejemplo, styles.css o styles.scss */
-  button.mat-button.mat-button-disabled {
-    background-color: gray; 
-    pointer-events: none;
-    cursor: not-allowed;
-  }
+
 button[type="submit"] {
   background-color: #6f42c1; /* Color de fondo */
   color: #fff; /* Color del texto */
@@ -51,3 +47,8 @@ button[type="submit"]:hover {
   background-color: #a074f2; /* Cambia el color de fondo al pasar el mouse */
 }
 
+button[type="submit"]:disabled{
+  background-color: gray; 
+  pointer-events: none;
+  cursor: not-allowed;
+}
