@@ -1,0 +1,82 @@
+<form #form="ngForm" (ngSubmit)="onSubmit(form.value)">
+
+    <mat-card>
+      <div>DNI: {{ dniDocente || 'DNI no disponible' }}</div><br>
+      <div>
+        <mat-label>Fecha de Registro: {{ fechaDeRegistro | date:'dd/MM/yyyy' }}</mat-label>
+      </div>
+      <br>
+      <div>Fecha a reservar:</div>
+      <br>
+      <mat-form-field>
+        <input matInput [matDatepicker]="picker" [min]="minDate">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+  
+      <div class="reserva-title">Inicio de reserva:</div>
+      <br>
+      <mat-form-field>
+        <mat-label>Inicio de reserva:</mat-label>
+        <mat-select [(ngModel)]="opcionSeleccionadaInicio" name="opcionSeleccionada">
+          <mat-option value="opcion1">7:00 AM - BLOQUE I</mat-option>
+          <mat-option value="opcion2">8:40 AM - BLOQUE II</mat-option>
+          <mat-option value="opcion3">10:20 AM - BLOQUE III</mat-option>
+          <mat-option value="opcion4">12:00 AM - BLOQUE IV</mat-option>
+          <mat-option value="opcion5">2:00 PM - BLOQUE V</mat-option>
+          <mat-option value="opcion6">3:40 PM - BLOQUE VI</mat-option>
+          <mat-option value="opcion7">5:20 PM - BLOQUE VII</mat-option>
+          <mat-option value="opcion8">7:00 PM - BLOQUE VIII</mat-option>
+          <mat-option value="opcion9">8:40 PM - BLOQUE IX</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div>Fin Reserva</div>
+      <br>
+      <mat-form-field>
+        <mat-label>Fin de reserva</mat-label>
+        <mat-select [(ngModel)]="opcionSeleccionadaFin" name="opcionSeleccionada">
+          <mat-option value="opcion1">8:30 AM - BLOQUE I</mat-option>
+          <mat-option value="opcion2">10:10 AM - BLOQUE II</mat-option>
+          <mat-option value="opcion3">11:50 AM - BLOQUE III</mat-option>
+          <mat-option value="opcion4">1:30 PM - BLOQUE IV</mat-option>
+          <mat-option value="opcion5">3:30 PM - BLOQUE V</mat-option>
+          <mat-option value="opcion6">5:10 PM - BLOQUE VI</mat-option>
+          <mat-option value="opcion7">6:50 PM - BLOQUE VII</mat-option>
+          <mat-option value="opcion8">8:30 PM - BLOQUE VIII</mat-option>
+          <mat-option value="opcion9">10:00 PM - BLOQUE IX</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div>Asignatura - NRC</div>
+      <br>
+      <mat-form-field>
+        <mat-label>Asignatura / NRC</mat-label>
+        <mat-select [(ngModel)]="selectedAsignatura" name="selectedAsignatura" (ngModelChange)="onAsignaturaChange()">
+          <mat-option *ngFor="let asignatura of asignaturas" [value]="asignatura.ID_Asignatura">
+            {{ asignatura.Nombre_Asignatura }} ({{ asignatura.NRC }}) - ID: {{ asignatura.ID_Asignatura }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      
+      <div>Laboratorio</div>
+      <mat-form-field>
+        <mat-label>Selecciona un laboratorio</mat-label>
+        <mat-select [(ngModel)]="selectedLaboratorio" name="selectedLaboratorio" [disabled]="!(dniDocente && selectedAsignatura)">
+          <ng-container *ngIf="laboratorios.length; else noLaboratorios">
+            <mat-option *ngFor="let laboratorio of laboratorios" [value]="laboratorio.Nombre_Laboratorio">
+              {{ laboratorio.Nombre_Laboratorio }}
+            </mat-option>
+          </ng-container>
+          <ng-template #noLaboratorios>
+            <mat-option disabled>No hay laboratorios para esta asignatura</mat-option>
+          </ng-template>
+        </mat-select>
+      </mat-form-field>
+      <div>Cantidad de Licencias Reservadas: </div>
+<br>
+
+<input type="text" name="cantidadLicencias" (input)="onInputChange($event)">
+<br>
+<button type="submit">Enviar</button>
+    </mat-card>
+  </form>
+  

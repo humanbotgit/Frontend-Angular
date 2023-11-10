@@ -3,8 +3,10 @@ import { Docente } from '../model/Docente';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from "@angular/common/http"
 import { Observable, BehaviorSubject } from 'rxjs';
-import { first, catchError, tap } from 'rxjs/operators';
+import { first, tap } from 'rxjs/operators';
 import { ErrorService } from './error/error.service';
+import { catchError } from 'rxjs/operators';
+
 
 @Injectable({
   providedIn: 'root'
@@ -42,14 +44,14 @@ export class AuthService {
       .pipe(
         first(),
         tap((tokenObject: any) => {
-          this.docenteDNI = tokenObject.docenteDNI;
+          this.docenteDNI = tokenObject.docenteid;
           localStorage.setItem("token", tokenObject.token);
-          
+  
           // Asegúrate de que this.docenteDNI no sea undefined antes de intentar guardarlo
           if (this.docenteDNI !== undefined) {
             localStorage.setItem("DNI_Docente", this.docenteDNI.toString());
           }
-        
+  
           this.isUserLoggedIn$.next(true);
           this.router.navigate(["reservas"]);
         }),
@@ -60,17 +62,25 @@ export class AuthService {
           }>("login"))
       );
   }
+  // En el AuthService
+logout() {
+  // Limpiar el token y cualquier otra información de sesión
+  localStorage.removeItem('token');
+  localStorage.removeItem('DNI_Docente');
+  this.isUserLoggedIn$.next(false);
+  this.router.navigate(['login']); // Ajusta la redirección según tu configuración
+}
+
   getReservasByDNI(dni: string): Observable<any[]> {
-    const url = `${this.url}/reserva/${dni}`;
-    console.log('URL de la solicitud:', url);
+  const url = `${this.url}reserva/${dni}`;
+  console.log('URL de la solicitud:', url);
+
+  return this.http.get<any[]>(url, this.httpOptions)
+    .pipe(
+      tap(res => console.log('Respuesta de la API:', res)),
+      catchError(this.ErrorService.handleError<any[]>('getReservasByDNI'))
+    );
+}
+
   
-    return this.http.get<any[]>(url, this.httpOptions)
-      .pipe(
-        tap(res => console.log('Respuesta de la API:', res)),
-        catchError((error: any) => {
-          console.error('Error de la API:', error);
-          return this.ErrorService.handleError<any[]>('getReservasByDNI');
-        })
-      );
-  }  
 }

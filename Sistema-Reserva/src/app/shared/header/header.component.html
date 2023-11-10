@@ -1,17 +1,20 @@
 <div class="container">
-    <header class="d-flex flex-wrap align-items-center justify-content-md-between py-3  border-bottom">
-      <img src="https://conecta.continental.edu.pe/img/LOGO_HORIZONTAL_RGB_POSITIVO_PNG-01.png" height="30px">
+  <header class="d-flex flex-wrap align-items-center justify-content-md-between py-3 border-bottom">
+    <img src="https://conecta.continental.edu.pe/img/LOGO_HORIZONTAL_RGB_POSITIVO_PNG-01.png" height="30px">
 
-      <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-        <li><a href="#" class="nav-link px-2 link-secondary">Inicio</a></li>
-        <li><a href="#" class="nav-link px-2 link-dark">Laboratorios</a></li>
-        <li><a href="#" class="nav-link px-2 link-dark">Preguntas y Respuestas</a></li>
-        <li><a href="#" class="nav-link px-2 link-dark">Acerca</a></li>
-      </ul>
+    <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+      <li><a href="#" class="nav-link px-2 link-secondary">Inicio</a></li>
+      <li><a href="#" class="nav-link px-2 link-dark">Laboratorios</a></li>
+      <li><a href="#" class="nav-link px-2 link-dark">Preguntas y Respuestas</a></li>
+      <li><a href="#" class="nav-link px-2 link-dark">Acerca</a></li>
+    </ul>
 
-      <div class="">
-        <button routerLink="/ingresar" class="btn btn-outline-primary me-2">Ingresar</button>
-        <button routerLink="/registrar" class="btn btn-primary">Registrarse</button>
-      </div>
-    </header>
+    <div class="">  
+<!-- En tu barra de navegación -->
+      <button *ngIf="isUserLoggedIn()" (click)="logout()" class="btn btn-outline-danger me-2">Cerrar Sesión</button>
+      <button *ngIf="!isUserLoggedIn()" routerLink="/ingresar" class="btn btn-outline-primary me-2">Ingresar</button>
+      <button *ngIf="!isUserLoggedIn()" routerLink="/registrar" class="btn btn-primary">Registrarse</button>
+
+    </div>
+  </header>
 </div>

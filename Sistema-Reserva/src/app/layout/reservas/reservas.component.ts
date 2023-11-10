@@ -13,12 +13,15 @@ export class ReservasComponent implements OnInit {
   constructor(private authService: AuthService) {}
 
   ngOnInit() {
-    this.dniDocente = this.authService.docenteDNI?.toString();
-    if (this.dniDocente) {
-      this.authService.getReservasByDNI(this.dniDocente)
-        .subscribe(reservas => {
-          this.reservas = reservas;
-        });
-    }
+  this.dniDocente = this.authService.docenteDNI?.toString();
+  console.log('DNI del docente:', this.dniDocente);
+  if (this.dniDocente) {
+    this.authService.getReservasByDNI(this.dniDocente)
+      .subscribe(reservas => {
+        console.log('Reservas recibidas:', reservas);
+        this.reservas = reservas;
+      });
   }
+}
+
 }

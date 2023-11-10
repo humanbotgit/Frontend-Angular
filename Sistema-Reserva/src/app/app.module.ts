@@ -15,6 +15,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule} from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { JwtModule } from '@auth0/angular-jwt';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -26,6 +27,7 @@ import { InicioComponent } from './layout/inicio/inicio.component';
 import { IngresarComponent } from './forms/ingresar/ingresar.component';
 import { ReservasComponent } from './layout/reservas/reservas.component';
 import { RegistrarComponent } from './forms/registrar/registrar.component';
+import { NewReservaComponent } from './forms/new-reserva/new-reserva.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,8 @@ import { RegistrarComponent } from './forms/registrar/registrar.component';
     InicioComponent,
     IngresarComponent,
     ReservasComponent,
-    RegistrarComponent
+    RegistrarComponent,
+    NewReservaComponent
     
   ],
   imports: [
@@ -58,7 +61,8 @@ import { RegistrarComponent } from './forms/registrar/registrar.component';
     MatDatepickerModule,
     MatNativeDateModule,
     MatSelectModule,  // Solo necesitas importar MatSelectModule
-    MatCheckboxModule
+    MatCheckboxModule,
+    JwtModule
   ],
   providers: [
     provideClientHydration(),

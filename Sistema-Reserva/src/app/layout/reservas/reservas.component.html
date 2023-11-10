@@ -1,27 +1,34 @@
-<table>
-    <thead>
-      <tr>
-        <th>ID Reserva</th>
-        <th>Fecha Registro</th>
-        <th>Fecha Reserva</th>
-        <th>Inicio Reserva</th>
-        <th>Fin Reserva</th>
-        <th>Licencias Reservadas</th>
-        <th>Nombre Asignatura</th>
-        <th>Nombre Laboratorio</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let reserva of reservas">
-        <td>{{ reserva.ID_Reserva }}</td>
-        <td>{{ reserva.Fecha_Registro }}</td>
-        <td>{{ reserva.Fecha_Reserva }}</td>
-        <td>{{ reserva.Inicio_Reserva }}</td>
-        <td>{{ reserva.Fin_Reserva }}</td>
-        <td>{{ reserva.Cantidad_Licencias_Reservadas }}</td>
-        <td>{{ reserva.Nombre_Asignatura }}</td>
-        <td>{{ reserva.Nombre_Laboratorio }}</td>
-      </tr>
-    </tbody>
-  </table>
-  
+<div class="container">
+  <div class="d-flex justify-content-center align-items-center mt-2">
+    <a routerLink="/new-reserva" class="btn btn-outline-primary me-2">Crear Reserva</a>
+  </div>
+
+  <div class="mt-4">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID Reserva</th>
+          <th>Fecha Registro</th>
+          <th>Fecha Reserva</th>
+          <th>Inicio Reserva</th>
+          <th>Fin Reserva</th>
+          <th>Licencias Reservadas</th>
+          <th>Nombre Asignatura</th>
+          <th>Nombre Laboratorio</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let reserva of reservas">
+          <td>{{ reserva.ID_Reserva }}</td>
+          <td>{{ reserva.Fecha_Registro }}</td>
+          <td>{{ reserva.Fecha_Reserva }}</td>
+          <td>{{ reserva.Inicio_Reserva }}</td>
+          <td>{{ reserva.Fin_Reserva }}</td>
+          <td>{{ reserva.Cantidad_Licencias_Reservadas }}</td>
+          <td>{{ reserva.Nombre_Asignatura }}</td>
+          <td>{{ reserva.Nombre_Laboratorio }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

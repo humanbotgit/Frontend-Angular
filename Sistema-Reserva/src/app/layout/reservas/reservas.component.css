@@ -1,4 +1,9 @@
-/* Agrega estilos a la tabla */
+div a{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 130px;
+}
 table {
     width: 100%;
     border-collapse: collapse;

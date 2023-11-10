@@ -1,0 +1,47 @@
+/* styles.css */
+
+/* Estilo para el mat-card */
+mat-card {
+    width: 400px; /* Define el ancho deseado */
+    margin: 0 auto; /* Centra horizontalmente */
+    padding: 20px; /* Espaciado interno */
+  }
+  
+  /* Estilo para los campos de entrada */
+  mat-form-field {
+    width: 100%; /* Ocupa todo el ancho disponible */
+    margin-bottom: 15px; /* Espaciado inferior entre campos */
+  }
+  
+  /* Estilo para los botones de fecha */
+  mat-datepicker-toggle {
+    cursor: pointer; /* Cambia el cursor al puntero al pasar sobre él */
+  }
+  
+  /* Estilo para el párrafo de opción seleccionada */
+  p {
+    font-weight: bold; /* Hace que el texto sea negrita */
+  }
+  
+  /* Estilo para el campo de cantidad de licencias */
+  input[type="text"] {
+    width: 100%; /* Ocupa todo el ancho disponible */
+    padding: 10px; /* Espaciado interno */
+    border: 1px solid #ccc; /* Borde con color gris claro */
+    border-radius: 5px; /* Bordes redondeados */
+    outline: none; /* Elimina el contorno al hacer clic */
+  }
+  /* En tu archivo de estilos CSS, por ejemplo, styles.css o styles.scss */
+button[type="submit"] {
+  background-color: #6f42c1; /* Color de fondo */
+  color: #fff; /* Color del texto */
+  border: none; /* Sin borde */
+  padding: 10px 20px; /* Espaciado interno */
+  border-radius: 5px; /* Bordes redondeados */
+  cursor: pointer; /* Cambia el cursor al pasar el mouse */
+  font-size: 16px; /* Tamaño de fuente */
+}
+
+button[type="submit"]:hover {
+  background-color: #a074f2; /* Cambia el color de fondo al pasar el mouse */
+}
