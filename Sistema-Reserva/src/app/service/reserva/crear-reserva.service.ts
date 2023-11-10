@@ -29,4 +29,13 @@ export class CrearReservaService {
     const url = `${this.apiUrl}/reserva/`;
     return this.http.post<Reserva>(url, reserva);
   }
+  getCantidadLicencias(idLaboratorio: string): Observable<any> {
+    const url = `${this.apiUrl}/laboratorio/cantlicencia/${idLaboratorio}`;
+    return this.http.get<any>(url).pipe(
+      catchError((error) => {
+        console.error('Error en la solicitud:', error);
+        throw error;
+      })
+    );
+  }
 }
