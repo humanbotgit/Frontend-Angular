@@ -18,14 +18,9 @@ export class CrearReservaService {
     const url = `${this.apiUrl}/asignatura/${dniDocente}`;
     return this.http.get<any[]>(url);
   }
-  getLaboratorios(idAsignatura: string, dniDocente: string): Observable<any[]> {
+  getLaboratorios(idAsignatura: string): Observable<any[]> {
     const url = `${this.apiUrl}/laboratorio/labas/${idAsignatura}`;
-    return this.http.get<any[]>(url).pipe(
-      catchError((error) => {
-        console.error('Error en la solicitud:', error);
-        throw error;
-      })
-    );
+    return this.http.get<any[]>(url);
   }
   postReserva(reserva: Reserva): Observable<Reserva> {
     const url = `${this.apiUrl}/reserva/`;

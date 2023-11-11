@@ -16,7 +16,7 @@ import { AuthService } from '../../service/auth.service';
 export class NewReservaComponent implements OnInit {
   dniDocente: string = '';
   fechaDeRegistro: Date;
-  fechaDeReserva: Date = new Date();
+  fechaDeReserva: string = '';
   opcionSeleccionadaInicio: number = 0;
   opcionSeleccionadaFin: number = 0;
   cantidadLicencias: string = '';
@@ -25,12 +25,11 @@ export class NewReservaComponent implements OnInit {
   selectedAsignatura: string = '';
   laboratorios: Laboratorio[] = [];
   selectedLaboratorio: string = '';
-  selectedLaboratorioID: string = '';
   availableLicenses: number = 0;
   showError: boolean = false;
   errorMessage: string = '';
   isButtonDisabled: boolean = true;
-  horaFinMenorOIgual: boolean = false;
+  esmayor: boolean = false;
   isLoggedIn: boolean = false;
   constructor(
     private dateAdapter: DateAdapter<Date>,
@@ -43,8 +42,8 @@ export class NewReservaComponent implements OnInit {
     this.dateAdapter.setLocale('es');
     this.minDate = new Date();
     //Obtienene el dni del docente
-    this.dniDocente = this.profesorService.getDNIDocente() || '75471467';
-    if (!this.dniDocente || this.dniDocente=='75471467') {
+    this.dniDocente = this.profesorService.getDNIDocente() || 'undefined';
+    if (!this.dniDocente || this.dniDocente=='undefined') {
       this.router.navigate(['/ingresar']);
     }
     this.isLoggedIn = this.authService.isUserLoggedIn$.value;
@@ -54,13 +53,36 @@ export class NewReservaComponent implements OnInit {
     //carga las asignaturas del docente
     this.loadAsignaturas();
   }
-
-  ngOnInit() {}
-  //selecciona la fecha fin, tiene que ser mayor que el valor que la fecha inicio
-  compareFechas() {
-    this.horaFinMenorOIgual = this.opcionSeleccionadaFin <= this.opcionSeleccionadaInicio;
+  formatoFecha(fecha: Date): string {
+    const year = fecha.getFullYear();
+    const month = (fecha.getMonth() + 1).toString().padStart(2, '0');
+    const day = fecha.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
   }
-  //carga las asignaturas
+  
+  onFechaSeleccionada(event: any) {
+    this.fechaDeReserva = this.formatoFecha(event.value);
+    console.log(this.fechaDeReserva);
+  }
+  
+  ngOnInit() {}
+  onOpcionSeleccionadaInicio(event: any) {
+    this.opcionSeleccionadaInicio = event;
+    this.compareFechas();
+  }
+  
+  onOpcionSeleccionadaFin(event: any) {
+    this.opcionSeleccionadaFin = event;
+    this.compareFechas();
+  }
+  
+  compareFechas() {
+    if (this.opcionSeleccionadaInicio && this.opcionSeleccionadaFin) {
+      this.esmayor = this.opcionSeleccionadaInicio > this.opcionSeleccionadaFin;
+    } else {
+      this.esmayor = true;
+    }
+  }
   loadAsignaturas() {
     if (this.dniDocente) {
       this.crearReservaService.getAsignaturas(this.dniDocente).subscribe((data) => {
@@ -68,16 +90,16 @@ export class NewReservaComponent implements OnInit {
       });
     }
   }
-//carga los laboratorios al haber seleccionado la asignatura
   onAsignaturaChange() {
     if (this.selectedAsignatura && this.dniDocente) {
       this.loadLaboratorios();
     }
+    console.log(this.selectedAsignatura);
   }
   //carga los laboratorios
   loadLaboratorios() {
-    if (this.selectedAsignatura && this.dniDocente) {
-      this.crearReservaService.getLaboratorios(this.selectedAsignatura, this.dniDocente).subscribe((data) => {
+    if (this.selectedAsignatura) {
+      this.crearReservaService.getLaboratorios(this.selectedAsignatura).subscribe((data) => {
         this.laboratorios = data;
         if (this.laboratorios.length === 0) {
           console.log('No hay laboratorios para esta asignatura.');
@@ -92,6 +114,7 @@ export class NewReservaComponent implements OnInit {
     if (this.selectedLaboratorio && this.dniDocente) {
       this.loadCantidadLicencia();
     }
+    console.log(this.selectedLaboratorio);
   }
   //carga cantidad de licencias
   loadCantidadLicencia() {
@@ -138,8 +161,25 @@ export class NewReservaComponent implements OnInit {
     const cantidadSolicitada = parseInt(this.cantidadLicencias, 10);
     return cantidadSolicitada <= this.availableLicenses;
   }
-  onSubmit(form: NgForm) {
-    if (form.valid) {
+  validado(): boolean {
+    const fechaValida = this.fechaDeReserva !== '';
+    const horaInicioValida = this.opcionSeleccionadaInicio > 0;
+    const horaFinValida = this.opcionSeleccionadaFin > 0;
+    const asignaturaValida = this.selectedAsignatura !== '';
+    const laboratorioValido = this.selectedLaboratorio !== '';
+    const licenciasValidas = this.cantidadLicenciasValida(); 
+  
+    return (
+      fechaValida &&
+      horaInicioValida &&
+      horaFinValida &&
+      asignaturaValida &&
+      laboratorioValido &&
+      licenciasValidas
+    );
+  }
+  
+  onSubmit() {
       const cantidadSolicitada = parseInt(this.cantidadLicencias, 10);
       if (cantidadSolicitada > this.availableLicenses) {
         this.showError = true;
@@ -152,14 +192,15 @@ export class NewReservaComponent implements OnInit {
           Inicio_Reserva: this.opcionSeleccionadaInicio,
           Fin_Reserva: this.opcionSeleccionadaFin,
           Cantidad_Licencias_Reservadas: cantidadSolicitada,
-          ID_Laboratorio: this.selectedLaboratorioID,
+          ID_Laboratorio: this.selectedLaboratorio,
           ID_Asignatura: this.selectedAsignatura,
         };
         console.log('Reserva a enviar:', reserva);
 
-        this.crearReservaService.postReserva(reserva).subscribe(
+        this.authService.postReserva(reserva).subscribe(
           (response) => {
             console.log('Reserva enviada con éxito:', response);
+            this.router.navigate(['/reserva']);
           },
           (error) => {
             console.error('Error al enviar la reserva:', error);
@@ -168,4 +209,3 @@ export class NewReservaComponent implements OnInit {
       }
     }
   }
-}

@@ -46,9 +46,11 @@ button[type="submit"] {
 button[type="submit"]:hover {
   background-color: #a074f2; /* Cambia el color de fondo al pasar el mouse */
 }
-
-button[type="submit"]:disabled{
-  background-color: gray; 
+button[type="submit"]:disabled {
+  background-color: gray;
   pointer-events: none;
   cursor: not-allowed;
+}
+button[type="submit"]:not([disabled]):not(.validado) {
+  background-color: rgb(104, 104, 104);
 }
