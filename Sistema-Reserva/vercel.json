@@ -1,8 +1,7 @@
 {
+    "version": 2,
     "routes": [
-        {
-            "src": "/",
-            "dest": "/"
-        }
+      { "src": "/(.*\\..+)$", "dest": "/dist/sistema-reserva/browser/$1" },
+      { "src": "/.*", "dest": "/dist/sistema-reserva/browser/index.html" }
     ]
-}
+  }
