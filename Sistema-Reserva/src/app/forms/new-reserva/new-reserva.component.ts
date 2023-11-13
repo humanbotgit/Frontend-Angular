@@ -45,13 +45,15 @@ export class NewReservaComponent implements OnInit {
     this.dniDocente = this.profesorService.getDNIDocente() || 'undefined';
     if (!this.dniDocente || this.dniDocente=='undefined') {
       this.router.navigate(['/ingresar']);
-    }
-    this.isLoggedIn = this.authService.isUserLoggedIn$.value;
+    }else{
+          this.isLoggedIn = this.authService.isUserLoggedIn$.value;
     this.authService.isUserLoggedIn$.subscribe((loggedIn: boolean) => {
       this.isLoggedIn = loggedIn;
     });
     //carga las asignaturas del docente
     this.loadAsignaturas();
+    }
+
   }
   formatoFecha(fecha: Date): string {
     const year = fecha.getFullYear();
