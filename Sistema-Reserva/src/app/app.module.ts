@@ -28,6 +28,7 @@ import { IngresarComponent } from './forms/ingresar/ingresar.component';
 import { ReservasComponent } from './layout/reservas/reservas.component';
 import { RegistrarComponent } from './forms/registrar/registrar.component';
 import { NewReservaComponent } from './forms/new-reserva/new-reserva.component';
+import { AuthModule } from '@auth0/auth0-angular';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,14 @@ import { NewReservaComponent } from './forms/new-reserva/new-reserva.component';
     MatNativeDateModule,
     MatSelectModule,  // Solo necesitas importar MatSelectModule
     MatCheckboxModule,
-    JwtModule
+    JwtModule,
+    AuthModule.forRoot({
+      domain: 'dev-qgin3i4witaw1m3x.us.auth0.com',
+      clientId: 'vqucGvZC3RsAblPjbeIX72jeluYKrTE9',
+      authorizationParams: {
+        redirect_uri: window.location.origin
+      }
+    }),
   ],
   providers: [
     provideClientHydration(),

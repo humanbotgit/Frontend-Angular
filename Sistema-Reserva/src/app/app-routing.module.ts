@@ -8,6 +8,7 @@ import { IngresarComponent} from './forms/ingresar/ingresar.component'
 import { ReservasComponent } from './layout/reservas/reservas.component';
 import { RegistrarComponent } from './forms/registrar/registrar.component';
 import { NewReservaComponent } from './forms/new-reserva/new-reserva.component';
+
 const routes: Routes = [
   {path: '', redirectTo: 'inicio', pathMatch:'full'},
   {path: 'inicio', component:InicioComponent},
